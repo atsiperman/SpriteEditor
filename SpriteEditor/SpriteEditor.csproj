@@ -66,6 +66,9 @@
     <Compile Include="Code\Editor\IEditAction.cs" />
     <Compile Include="Code\EditorSettings.cs" />
     <Compile Include="Code\Enums\ImageType.cs" />
+    <Compile Include="Code\Sprites\Sprite.cs" />
+    <Compile Include="Code\Sprites\SpriteMap.cs" />
+    <Compile Include="Code\Sprites\SpritePalette.cs" />
     <Compile Include="Code\Storage\ExportData.cs" />
     <Compile Include="Code\Storage\FileSaver.cs" />
     <Compile Include="UI\EditorView.xaml.cs">
