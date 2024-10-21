@@ -18,6 +18,8 @@ namespace SpriteEditor
 
         #region Public properties     
 
+        public event EventHandler<EventArgs> Changed;
+
         public string Description { get { return "Korvet"; } }
 
         public int ScreenWidth { get { return _videoWidth; } }
@@ -77,6 +79,7 @@ namespace SpriteEditor
 
                 _planes[k][idx] = mask;
             }
+            FireChangedEvent();
         }
 
         public void Fill(uint nativeColor)
@@ -90,6 +93,7 @@ namespace SpriteEditor
                     _planes[k][idx] = newColor;
                 }
             }
+            FireChangedEvent();
         }
 
         public void SetScreenSize(int width, int height)
@@ -141,6 +145,11 @@ namespace SpriteEditor
         int GetIndexOfByte(int x, int y)
         {
             return y * _bytesPerLine + x / 8;
+        }
+
+        void FireChangedEvent()
+        {
+            Changed?.Invoke(this, EventArgs.Empty);
         }
 
         #endregion Private methods

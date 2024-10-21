@@ -16,27 +16,31 @@ namespace SpriteEditor.Code
             public uint[] Data { get; set; }
             public uint[] Mask { get; set; }
 
-            public uint SelectedColor { get; set; }
-            public uint TransparentColor { get; set; }
+            public uint SelectedColorNative { get; set; }
+            public uint TransparentColorNative { get; set; }
         }
 
         public static void Save(EditorSettings editor, string path, uint nativeColor, uint maskNativeColor, ImageType imageType)
         {
             editor.FilePath = path;
             var ext = Path.GetExtension(path);
+            bool hasChanges = editor.HasChanges;
             switch (ext)
             {
                 case ".spr":
                     SaveNative(editor, path);
+                    hasChanges = false;
                     break;
 
                 case ".dat":
                     ExportData.Save(path, editor.VideoMemory, nativeColor, maskNativeColor, imageType);
+                    hasChanges = false;
                     break;
 
                 default:
                     break;
             }
+            editor.HasChanges = hasChanges;
         }
 
         private static void SaveNative(EditorSettings editor, string path)
@@ -46,8 +50,8 @@ namespace SpriteEditor.Code
                 Palette = editor.Palette,
                 Width = editor.VideoMemory.ScreenWidth,
                 Height = editor.VideoMemory.ScreenHeight,
-                TransparentColor = editor.TransparentColor.Argb,
-                SelectedColor = editor.SelectedColor.Argb,
+                TransparentColorNative = editor.TransparentColor.NativeColor,
+                SelectedColorNative = editor.SelectedColor.NativeColor,
             };
             data.Data = new uint[data.Width * data.Height];
             for (int h = 0; h < data.Height; h++)
@@ -75,8 +79,8 @@ namespace SpriteEditor.Code
             var data = (NativeEditorFileFormat)JsonConvert.DeserializeObject(json, typeof(NativeEditorFileFormat));
             var editor = new EditorSettings();
             editor.Palette = data.Palette;
-            editor.SelectedColor.Argb = data.SelectedColor;
-            editor.TransparentColor.Argb = data.TransparentColor;
+            editor.SelectedColor = data.Palette.Find(x => x.NativeColor == data.SelectedColorNative);
+            editor.TransparentColor = data.Palette.Find(x => x.NativeColor == data.TransparentColorNative);
             editor.VideoMemory = new KorvetVideoMemory();
             editor.VideoMemory.SetScreenSize(data.Width, data.Height);
 

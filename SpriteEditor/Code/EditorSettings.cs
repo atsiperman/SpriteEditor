@@ -1,4 +1,5 @@
 ﻿using SpriteEditor.Code.Enums;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -12,15 +13,27 @@ namespace SpriteEditor
         Dictionary<uint, SeColor> _paletteDictionary;
         List<SeColor> _palette;
         int _gridScale = 10;
+        IVideoMemory _videoMemory;
 
         #endregion
 
         #region Public properties
 
+        public event EventHandler<EventArgs> Changed;
+
         /// <summary>
         /// Gets or sets video memory instance.
         /// </summary>
-        public IVideoMemory VideoMemory { get; set; }
+        public IVideoMemory VideoMemory 
+        { 
+            get {  return _videoMemory; }
+            set
+            {
+                ReleaseVideoMemory(_videoMemory);
+                _videoMemory = value;
+                OnNewVideoMemory();
+            }
+        }
 
         /// <summary>
         /// Gets or sets current scale.
@@ -68,10 +81,43 @@ namespace SpriteEditor
             }
         }
 
+        private bool _hasChanges;
+        public bool HasChanges
+        {
+            get { return _hasChanges; }
+            set
+            {
+                _hasChanges = value;
+                FireDataChanged();
+            }
+        }
+
         public string FilePath { get; set; }
 
         public ImageType ImageType { get; set; }
 
         #endregion Public properties
+
+        private void OnNewVideoMemory()
+        {
+            _videoMemory.Changed += Data_Changed;
+        }
+
+        private void ReleaseVideoMemory(IVideoMemory videoMemory)
+        {
+            if (_videoMemory != null)
+                _videoMemory.Changed -= Data_Changed;
+        }
+
+        private void Data_Changed(object sender, EventArgs e)
+        {
+            HasChanges = true;
+            FireDataChanged();
+        }
+
+        void FireDataChanged()
+        {
+            Changed?.Invoke(this, EventArgs.Empty);
+        }
     }
 }

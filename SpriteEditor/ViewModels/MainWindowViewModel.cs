@@ -10,8 +10,6 @@ namespace SpriteEditor.ViewModels
     {
         #region Private members 
 
-        const uint MaskNativeColor = 6;
-
         List<SeColor> _colors;
         EditorSettings _editorSettings;
 
@@ -27,8 +25,24 @@ namespace SpriteEditor.ViewModels
             private set
             {
                 _editorSettings = value;
+                OnNewEditorSettings();
                 FireRenew();
             }
+        }
+
+        private void OnNewEditorSettings()
+        {
+            _editorSettings.Changed += EditorSettings_Changed;
+        }
+
+        private void ReleaseEditorSettings(EditorSettings editorSettings)
+        {
+            if (EditorSettings != null)
+                editorSettings.Changed -= EditorSettings_Changed;
+        }
+        private void EditorSettings_Changed(object sender, EventArgs e)
+        {
+            FirePropertyChanged(nameof(Title));
         }
 
         public int MaxScale { get { return 32; } }
@@ -51,7 +65,7 @@ namespace SpriteEditor.ViewModels
         {
             get
             {
-                return string.Format("{0}{1}{2}", "Sprite Editor", string.IsNullOrEmpty(FilePath) ? string.Empty : " : ", FilePath);
+                return string.Format("{0}{1}{2}{3}", "Sprite Editor", string.IsNullOrEmpty(FilePath) ? string.Empty : " : ", FilePath, EditorSettings?.HasChanges == true ? "*" : "");
             }
         }
 
@@ -150,7 +164,7 @@ namespace SpriteEditor.ViewModels
 
         private void NewHelper(IVideoMemory videoMemory)
         {
-            EditorSettings.FilePath = string.Empty;
+            EditorSettings.FilePath = "New Object";
             EditorSettings.VideoMemory = videoMemory;
             EditorSettings.Scale = 10;
             EditorSettings.Palette = videoMemory.Palette;
@@ -159,7 +173,7 @@ namespace SpriteEditor.ViewModels
                 SelectedColor = EditorSettings.Palette.First();
 
             Colors = videoMemory.Palette;
-
+            EditorSettings.HasChanges = false;
             OnScaleChanged();
         }
 
@@ -192,7 +206,7 @@ namespace SpriteEditor.ViewModels
 
         public void SaveToFile(string file)
         {
-            FileSaver.Save(EditorSettings, file, SelectedColor.NativeColor, MaskNativeColor, ImageType);
+            FileSaver.Save(EditorSettings, file, SelectedColor.NativeColor, TransparentColor.NativeColor, ImageType);
             FirePropertyChanged(nameof(Title));
         }
 

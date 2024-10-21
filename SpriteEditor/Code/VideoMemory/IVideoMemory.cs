@@ -31,6 +31,8 @@ namespace SpriteEditor
         /// </summary>
         List<SeColor> Palette { get; }
 
+        event EventHandler<EventArgs> Changed;
+
         #endregion Properties
 
         #region Methods
