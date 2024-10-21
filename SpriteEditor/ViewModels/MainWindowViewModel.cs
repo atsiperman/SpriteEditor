@@ -80,6 +80,16 @@ namespace SpriteEditor.ViewModels
             }
         }
 
+        public SeColor TransparentColor
+        {
+            get { return EditorSettings.Color; }
+            set
+            {
+                EditorSettings.Color = value;
+                FirePropertyChanged("TransparentColor");
+            }
+        }
+
         public ImageType ImageType
         {
             get { return EditorSettings.ImageType; }

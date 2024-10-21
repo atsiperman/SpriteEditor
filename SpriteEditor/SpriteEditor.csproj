@@ -71,6 +71,9 @@
     <Compile Include="Code\Sprites\SpritePalette.cs" />
     <Compile Include="Code\Storage\ExportData.cs" />
     <Compile Include="Code\Storage\FileSaver.cs" />
+    <Compile Include="UI\ColorSelection.xaml.cs">
+      <DependentUpon>ColorSelection.xaml</DependentUpon>
+    </Compile>
     <Compile Include="UI\EditorView.xaml.cs">
       <DependentUpon>EditorView.xaml</DependentUpon>
     </Compile>
@@ -94,6 +97,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="UI\ColorSelection.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="UI\EditorView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

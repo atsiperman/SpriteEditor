@@ -44,34 +44,8 @@
                     <Button Content="+" Margin="5 0 0 0" MinWidth="30" Click="ZoomIn_Click" IsEnabled="{Binding Path=ZoomInEnabled}" VerticalContentAlignment="Center"/>
                     <Button Content="-" Margin="5 0 0 0" MinWidth="30" Click="ZoomOut_Click" IsEnabled="{Binding Path=ZoomOutEnabled}" VerticalContentAlignment="Center"/>
                 </StackPanel>
-                <ListView ItemsSource="{Binding Path=Colors}" Name="_colorPanel" Margin="0 5 0 5">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel Orientation="Horizontal" Margin="5">
-                                <Border BorderThickness="1" BorderBrush="Gray">
-                                    <Canvas Width="30" MinHeight="20">
-                                        <Canvas.Background>
-                                            <SolidColorBrush Color="{Binding Path=Argb, Converter={StaticResource ArgbConverter}}"/>
-                                        </Canvas.Background>
-                                    </Canvas>
-                                </Border>
-                                <TextBlock Text="{Binding Path=Text}" Margin="5 0 0 0" VerticalAlignment="Center"></TextBlock>
-                                <TextBox Text="{Binding Path=Label}" Margin="5 0 0 0" VerticalAlignment="Center"></TextBox>
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>
-                </ListView>
-                <StackPanel Orientation="Horizontal">
-                    <TextBlock VerticalAlignment="Center">Selected color:</TextBlock>
-                    <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="Gray">
-                        <Canvas MinHeight="20" MinWidth="20">
-                            <Canvas.Background>
-                                <SolidColorBrush Color="{Binding Path=SelectedColor.Argb,Converter={StaticResource ArgbConverter}}" />
-                            </Canvas.Background>                            
-                        </Canvas>
-                    </Border>
-                    <TextBlock Text="{Binding ElementName=_colorPanel,Path=SelectedItem.Text}" Margin="5 0 0 0" VerticalAlignment="Center"></TextBlock>                    
-                </StackPanel>
+                <ui:ColorSelection x:Name="_colorPanel">
+                </ui:ColorSelection>
                 <Button Name="_btnFill" Margin="0 5 0 5" MinHeight="30" MinWidth="50" HorizontalAlignment="Left">Fill</Button>
                 <StackPanel Orientation="Horizontal">
                     <Button Name="_btnMirrorVertically" Margin="0 5 0 5" Padding="5 0 5 0" MinHeight="30" MinWidth="30" HorizontalAlignment="Left" VerticalAlignment="Center">
