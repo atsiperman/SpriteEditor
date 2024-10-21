@@ -66,7 +66,7 @@ namespace SpriteEditor.ViewModels
             set
             {
                 _colors = value;
-                FirePropertyChanged("Colors");
+                FirePropertyChanged(nameof(Colors));
             }
         }
 
@@ -76,7 +76,7 @@ namespace SpriteEditor.ViewModels
             set
             {
                 EditorSettings.SelectedColor = value;
-                FirePropertyChanged("SelectedColor");
+                FirePropertyChanged(nameof(SelectedColor));
             }
         }
 
@@ -86,7 +86,7 @@ namespace SpriteEditor.ViewModels
             set
             {
                 EditorSettings.TransparentColor = value;
-                FirePropertyChanged("TransparentColor");
+                FirePropertyChanged(nameof(TransparentColor));
             }
         }
 
@@ -115,15 +115,17 @@ namespace SpriteEditor.ViewModels
 
         private void OnScaleChanged()
         {
-            FirePropertyChanged("ZoomInEnabled");
-            FirePropertyChanged("ZoomOutEnabled");
-            FirePropertyChanged("Scale");
-            FirePropertyChanged("ScaleText");
+            FirePropertyChanged(nameof(ZoomInEnabled));
+            FirePropertyChanged(nameof(ZoomOutEnabled));
+            FirePropertyChanged(nameof(Scale));
+            FirePropertyChanged(nameof(ScaleText));
         }
 
         private void FireRenew()
         {
-            FirePropertyChanged("IsViewEnabled");
+            FirePropertyChanged(nameof(SelectedColor));
+            FirePropertyChanged(nameof(TransparentColor));
+            FirePropertyChanged(nameof(IsViewEnabled));
             FirePropertyChanged(nameof(Title));
         }
 
@@ -135,6 +137,8 @@ namespace SpriteEditor.ViewModels
         {
             NewHelper(settings.VideoMemory);
             EditorSettings.FilePath = settings.FilePath;
+            EditorSettings.SelectedColor = settings.SelectedColor;
+            EditorSettings.TransparentColor = settings.TransparentColor;
             FireRenew();
         }
 
@@ -150,6 +154,7 @@ namespace SpriteEditor.ViewModels
             EditorSettings.VideoMemory = videoMemory;
             EditorSettings.Scale = 10;
             EditorSettings.Palette = videoMemory.Palette;
+
             if (EditorSettings.Palette.Any())
                 SelectedColor = EditorSettings.Palette.First();
 
