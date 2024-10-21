@@ -38,7 +38,7 @@ namespace SpriteEditor.UI
         void EditorView_MouseMove(object sender, MouseEventArgs e)
         {
             if ((e.LeftButton & MouseButtonState.Pressed) == 0 ||
-                EditorSettings == null || EditorSettings.VideoMemory == null || EditorSettings.Color == null)
+                EditorSettings == null || EditorSettings.VideoMemory == null || EditorSettings.SelectedColor == null)
             {
                 return;
             }
@@ -49,7 +49,7 @@ namespace SpriteEditor.UI
 
         void EditorView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (EditorSettings == null || EditorSettings.VideoMemory == null || EditorSettings.Color == null)
+            if (EditorSettings == null || EditorSettings.VideoMemory == null || EditorSettings.SelectedColor == null)
                 return;
 
             var point = e.GetPosition(this);
@@ -63,7 +63,7 @@ namespace SpriteEditor.UI
             int x = (int)(point.X - OffsetX) / dotW;
             int y = (int)(point.Y - OffsetY) / dotW;
 
-            EditorSettings.VideoMemory.SetPixel(EditorSettings.Color.NativeColor, x, y);
+            EditorSettings.VideoMemory.SetPixel(EditorSettings.SelectedColor.NativeColor, x, y);
         }
 
         private int OffsetX => EditorSettings.IsGridVisible ? EditorSettings.Scale + 1 : 0;

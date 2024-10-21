@@ -44,8 +44,8 @@
                     <Button Content="+" Margin="5 0 0 0" MinWidth="30" Click="ZoomIn_Click" IsEnabled="{Binding Path=ZoomInEnabled}" VerticalContentAlignment="Center"/>
                     <Button Content="-" Margin="5 0 0 0" MinWidth="30" Click="ZoomOut_Click" IsEnabled="{Binding Path=ZoomOutEnabled}" VerticalContentAlignment="Center"/>
                 </StackPanel>
-                <ui:ColorSelection x:Name="_colorPanel">
-                </ui:ColorSelection>
+                <ui:ColorSelection x:Name="_colorPanel" SelectedColor="{Binding Path=SelectedColor}" />
+                <ui:ColorSelection x:Name="_colorPanelTransparent" SelectedColor="{Binding Path=TransparentColor}"/>
                 <Button Name="_btnFill" Margin="0 5 0 5" MinHeight="30" MinWidth="50" HorizontalAlignment="Left">Fill</Button>
                 <StackPanel Orientation="Horizontal">
                     <Button Name="_btnMirrorVertically" Margin="0 5 0 5" Padding="5 0 5 0" MinHeight="30" MinWidth="30" HorizontalAlignment="Left" VerticalAlignment="Center">

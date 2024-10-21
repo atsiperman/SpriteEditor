@@ -34,11 +34,11 @@
             <Border Margin="5 0 0 0" BorderThickness="1" BorderBrush="Gray">
                 <Canvas MinHeight="20" MinWidth="20">
                     <Canvas.Background>
-                        <SolidColorBrush Color="{Binding Path=SelectedColor.Argb,Converter={StaticResource ArgbConverter}}" />
+                        <SolidColorBrush Color="{Binding Path=SelectedColor.Argb, Converter={StaticResource ArgbConverter}, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type local:ColorSelection}}}" />
                     </Canvas.Background>
                 </Canvas>
             </Border>
-            <TextBlock Text="{Binding ElementName=_colorPanel,Path=SelectedItem.Text}" Margin="5 0 0 0" VerticalAlignment="Center"></TextBlock>
+            <TextBlock Name="Text" Text="{Binding ElementName=_colorPanel,Path=SelectedItem.Text}" Margin="5 0 0 0" VerticalAlignment="Center" />
         </StackPanel>
     </StackPanel>
 </UserControl>

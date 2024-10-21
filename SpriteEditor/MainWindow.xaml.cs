@@ -22,6 +22,7 @@ namespace SpriteEditor
 
             _editorView.EditorSettings = _viewModel.EditorSettings;
             _colorPanel.SelectionChanged += ColorPanel_SelectionChanged;
+            _colorPanelTransparent.SelectionChanged += ColorPanelTransparent_SelectionChanged;
             _btnFill.Click += Fill_Click;
             _scaleSlider.ValueChanged += ScaleSlider_ValueChanged;
             _btnMirrorVertically.Click += MirrorVertically;
@@ -40,10 +41,10 @@ namespace SpriteEditor
 
         void Fill_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.EditorSettings.VideoMemory == null || _viewModel.EditorSettings.Color == null)
+            if (_viewModel.EditorSettings.VideoMemory == null || _viewModel.EditorSettings.SelectedColor == null)
                 return;
 
-            _viewModel.EditorSettings.VideoMemory.Fill(_viewModel.EditorSettings.Color.NativeColor);
+            _viewModel.EditorSettings.VideoMemory.Fill(_viewModel.EditorSettings.SelectedColor.NativeColor);
             _editorView.InvalidateVisual();
         }
 
@@ -60,6 +61,18 @@ namespace SpriteEditor
             }
         }
 
+        void ColorPanelTransparent_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_colorPanelTransparent.SelectedItem == null)
+            {
+                if (_viewModel.EditorSettings.Palette.Any())
+                    _viewModel.TransparentColor = _viewModel.EditorSettings.Palette[0];
+            }
+            else
+            {
+                _viewModel.TransparentColor = (SeColor)_colorPanelTransparent.SelectedItem;
+            }
+        }
         private void Init()
         {
             var dlg = new NewImageDialog();

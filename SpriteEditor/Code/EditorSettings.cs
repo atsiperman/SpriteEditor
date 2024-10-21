@@ -53,7 +53,12 @@ namespace SpriteEditor
         /// <summary>
         /// Gets or sets selected color.
         /// </summary>
-        public SeColor Color { get; set; }
+        public SeColor SelectedColor { get; set; }
+
+        /// <summary>
+        /// Gets or sets transparent color.
+        /// </summary>
+        public SeColor TransparentColor { get; set; }
 
         public string FileName
         {

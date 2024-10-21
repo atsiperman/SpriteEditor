@@ -72,20 +72,20 @@ namespace SpriteEditor.ViewModels
 
         public SeColor SelectedColor
         {
-            get { return EditorSettings.Color; }
+            get { return EditorSettings.SelectedColor; }
             set
             {
-                EditorSettings.Color = value;
+                EditorSettings.SelectedColor = value;
                 FirePropertyChanged("SelectedColor");
             }
         }
 
         public SeColor TransparentColor
         {
-            get { return EditorSettings.Color; }
+            get { return EditorSettings.TransparentColor; }
             set
             {
-                EditorSettings.Color = value;
+                EditorSettings.TransparentColor = value;
                 FirePropertyChanged("TransparentColor");
             }
         }
