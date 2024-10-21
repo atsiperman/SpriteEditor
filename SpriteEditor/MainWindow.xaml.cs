@@ -124,7 +124,7 @@ namespace SpriteEditor
 
         const string FileFilter = "Sprites (*.spr)|*.spr|Sprite data (*.dat)|*.dat";
 
-        private void MenuIte_Open(object sender, RoutedEventArgs e)
+        private void MenuItem_Open(object sender, RoutedEventArgs e)
         {
             var d = new OpenFileDialog();
             d.Filter = FileFilter;
@@ -139,11 +139,11 @@ namespace SpriteEditor
             FireRedraw();
         }
 
-        private void MenuIte_Save(object sender, RoutedEventArgs e)
+        private void MenuItem_Save(object sender, RoutedEventArgs e)
         {
             if (string.IsNullOrEmpty(_viewModel.FilePath))
             {
-                MenuIte_SaveAs(sender, e);
+                MenuItem_SaveAs(sender, e);
             }
             else
             {
@@ -151,7 +151,7 @@ namespace SpriteEditor
             }
         }
 
-        private void MenuIte_SaveAs(object sender, RoutedEventArgs e)
+        private void MenuItem_SaveAs(object sender, RoutedEventArgs e)
         {
             var d = new SaveFileDialog();            
             d.Filter = FileFilter;
@@ -166,7 +166,7 @@ namespace SpriteEditor
             _viewModel.SaveToFile(d.FileName);
         }
 
-        private void MenuIte_Exit(object sender, RoutedEventArgs e)
+        private void MenuItem_Exit(object sender, RoutedEventArgs e)
         {
             this.Close();
         }

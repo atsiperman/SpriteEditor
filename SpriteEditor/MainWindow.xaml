@@ -14,11 +14,11 @@
             <MenuItem Header="_File" IsEnabled="True">
                 <MenuItem Header="_New" IsEnabled="True" Click="MenuIte_New"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="_Open" IsEnabled="True" Click="MenuIte_Open"></MenuItem>
-                <MenuItem Header="_Save" IsEnabled="True" Click="MenuIte_Save"></MenuItem>
-                <MenuItem Header="Save _As" IsEnabled="True" Click="MenuIte_SaveAs"></MenuItem>
+                <MenuItem Header="_Open" IsEnabled="True" Click="MenuItem_Open"></MenuItem>
+                <MenuItem Header="_Save" IsEnabled="True" Click="MenuItem_Save"></MenuItem>
+                <MenuItem Header="Save _As" IsEnabled="True" Click="MenuItem_SaveAs"></MenuItem>
                 <Separator></Separator>
-                <MenuItem Header="E_xit" IsEnabled="True" Click="MenuIte_Exit"></MenuItem>
+                <MenuItem Header="E_xit" IsEnabled="True" Click="MenuItem_Exit"></MenuItem>
             </MenuItem>
         </Menu>
         <Grid>

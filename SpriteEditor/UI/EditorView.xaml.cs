@@ -60,11 +60,14 @@ namespace SpriteEditor.UI
         void SetPixel(Point point)
         {
             var dotW = EditorSettings.IsGridVisible ? EditorSettings.Scale + 1 : EditorSettings.Scale;
-            int x = (int)point.X / dotW;
-            int y = (int)point.Y / dotW;
+            int x = (int)(point.X - OffsetX) / dotW;
+            int y = (int)(point.Y - OffsetY) / dotW;
 
             EditorSettings.VideoMemory.SetPixel(EditorSettings.Color.NativeColor, x, y);
         }
+
+        private int OffsetX => EditorSettings.IsGridVisible ? EditorSettings.Scale + 1 : 0;
+        private int OffsetY => EditorSettings.IsGridVisible ? EditorSettings.Scale + 1 : 0;
 
         protected override void OnRender(DrawingContext drawingContext)
         {
@@ -77,11 +80,7 @@ namespace SpriteEditor.UI
 
             int scale = EditorSettings.Scale;
             int offset = !EditorSettings.IsGridVisible ? scale : scale + 1;
-            double yStart = 0, xStart = 0;
-            if (EditorSettings.IsGridVisible)
-            {
-                xStart = scale + 1;
-            }
+            double yStart = 0, xStart = OffsetX;
 
             if (EditorSettings.IsGridVisible)
             {
