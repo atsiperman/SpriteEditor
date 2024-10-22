@@ -38,7 +38,7 @@ namespace SpriteEditor.UI
         SeColor GetEffectiveColor()
         {
             bool inverseColor = Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt);
-            return inverseColor ? EditorSettings?.TransparentColor : EditorSettings?.SelectedColor;
+            return inverseColor ? EditorSettings?.BackColor : EditorSettings?.InkColor;
         }
 
         void EditorView_MouseMove(object sender, MouseEventArgs e)

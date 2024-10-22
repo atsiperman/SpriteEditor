@@ -16,7 +16,8 @@ namespace SpriteEditor.Code
             public uint[] Data { get; set; }
             public uint[] Mask { get; set; }
 
-            public uint SelectedColorNative { get; set; }
+            public uint InkColorNative { get; set; }
+            public uint BackColorNative { get; set; }
             public uint TransparentColorNative { get; set; }
         }
 
@@ -51,7 +52,8 @@ namespace SpriteEditor.Code
                 Width = editor.VideoMemory.ScreenWidth,
                 Height = editor.VideoMemory.ScreenHeight,
                 TransparentColorNative = editor.TransparentColor.NativeColor,
-                SelectedColorNative = editor.SelectedColor.NativeColor,
+                InkColorNative = editor.InkColor.NativeColor,
+                BackColorNative = editor.BackColor.NativeColor,
             };
             data.Data = new uint[data.Width * data.Height];
             for (int h = 0; h < data.Height; h++)
@@ -79,7 +81,8 @@ namespace SpriteEditor.Code
             var data = (NativeEditorFileFormat)JsonConvert.DeserializeObject(json, typeof(NativeEditorFileFormat));
             var editor = new EditorSettings();
             editor.Palette = data.Palette;
-            editor.SelectedColor = data.Palette.Find(x => x.NativeColor == data.SelectedColorNative);
+            editor.InkColor = data.Palette.Find(x => x.NativeColor == data.InkColorNative);
+            editor.BackColor = data.Palette.Find(x => x.NativeColor == data.BackColorNative);
             editor.TransparentColor = data.Palette.Find(x => x.NativeColor == data.TransparentColorNative);
             editor.VideoMemory = new KorvetVideoMemory();
             editor.VideoMemory.SetScreenSize(data.Width, data.Height);

@@ -66,7 +66,12 @@ namespace SpriteEditor
         /// <summary>
         /// Gets or sets selected color.
         /// </summary>
-        public SeColor SelectedColor { get; set; } = new SeColor();
+        public SeColor InkColor { get; set; } = new SeColor();
+
+        /// <summary>
+        /// Gets or sets selected color.
+        /// </summary>
+        public SeColor BackColor { get; set; } = new SeColor();
 
         /// <summary>
         /// Gets or sets transparent color.

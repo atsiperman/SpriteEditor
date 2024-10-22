@@ -22,7 +22,8 @@ namespace SpriteEditor
             this.DataContext = _viewModel = new MainWindowViewModel();
 
             _editorView.EditorSettings = _viewModel.EditorSettings;
-            _colorPanel.SelectionChanged += ColorPanel_SelectionChanged;
+            _colorPanelBack.SelectionChanged += ColorPanelBack_SelectionChanged;
+            _colorPanelInk.SelectionChanged += InkColorPanel_SelectionChanged;
             _colorPanelTransparent.SelectionChanged += ColorPanelTransparent_SelectionChanged;
             _btnFill.Click += Fill_Click;
             _scaleSlider.ValueChanged += ScaleSlider_ValueChanged;
@@ -42,23 +43,36 @@ namespace SpriteEditor
 
         void Fill_Click(object sender, RoutedEventArgs e)
         {
-            if (_viewModel.EditorSettings.VideoMemory == null || _viewModel.EditorSettings.SelectedColor == null)
+            if (_viewModel.EditorSettings.VideoMemory == null || _viewModel.EditorSettings.TransparentColor == null)
                 return;
 
-            _viewModel.EditorSettings.VideoMemory.Fill(_viewModel.EditorSettings.SelectedColor.NativeColor);
+            _viewModel.EditorSettings.VideoMemory.Fill(_viewModel.EditorSettings.TransparentColor.NativeColor);
             _editorView.InvalidateVisual();
         }
 
-        void ColorPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        void InkColorPanel_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (_colorPanel.SelectedItem == null)
+            if (_colorPanelInk.SelectedItem == null)
             {
                 if (_viewModel.EditorSettings.Palette.Any())
-                    _viewModel.SelectedColor = _viewModel.EditorSettings.Palette[0];
+                    _viewModel.InkColor = _viewModel.EditorSettings.Palette[0];
             }
             else
             {
-                _viewModel.SelectedColor = (SeColor)_colorPanel.SelectedItem;
+                _viewModel.InkColor = (SeColor)_colorPanelInk.SelectedItem;
+            }
+        }
+
+        private void ColorPanelBack_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (_colorPanelBack.SelectedItem == null)
+            {
+                if (_viewModel.EditorSettings.Palette.Any())
+                    _viewModel.BackColor = _viewModel.EditorSettings.Palette[0];
+            }
+            else
+            {
+                _viewModel.BackColor = (SeColor)_colorPanelBack.SelectedItem;
             }
         }
 
@@ -74,6 +88,7 @@ namespace SpriteEditor
                 _viewModel.TransparentColor = (SeColor)_colorPanelTransparent.SelectedItem;
             }
         }
+
         private void Init()
         {
             var dlg = new NewImageDialog();

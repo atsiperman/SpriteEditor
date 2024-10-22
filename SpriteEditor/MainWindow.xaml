@@ -47,16 +47,21 @@
                         <Button Content="-" Margin="5 0 0 0" MinWidth="30" Click="ZoomOut_Click" IsEnabled="{Binding Path=ZoomOutEnabled}" VerticalContentAlignment="Center"/>
                         <Button Content="+" Margin="5 0 0 0" MinWidth="30" Click="ZoomIn_Click" IsEnabled="{Binding Path=ZoomInEnabled}" VerticalContentAlignment="Center"/>
                     </StackPanel>
-                    <Expander Header="Color Selection" x:Name="_colorsExpander" IsExpanded="True">
-                        <ui:ColorSelection x:Name="_colorPanel" SelectedColor="{Binding Path=SelectedColor}" />
-                    </Expander>
-                    <Expander Header="Transparent Color Selection" x:Name="_transparentColorsExpander" IsExpanded="True">
-                        <ui:ColorSelection x:Name="_colorPanelTransparent" SelectedColor="{Binding Path=TransparentColor}"/>
-                    </Expander>
-                    <Button Name="_btnFill" Margin="0 5 0 5" MinHeight="30" MinWidth="50" HorizontalAlignment="Left"
-                            Background="{Binding Path=SelectedColor, Mode=OneWay, Converter={StaticResource SeColorToBrushConverter}}"
-                            Foreground="{Binding Path=SelectedColor, Mode=OneWay, Converter={StaticResource SeColorNegativeToBrushConverter}}"
+                    <Expander Header="Transparent Color" x:Name="_transparentColorsExpander" IsExpanded="True">
+                        <StackPanel Orientation="Vertical">
+                            <ui:ColorSelection x:Name="_colorPanelTransparent" SelectedColor="{Binding Path=TransparentColor}"/>
+                            <Button Name="_btnFill" Margin="0 5 0 5" MinHeight="30" MinWidth="50" HorizontalAlignment="Left"
+                            Background="{Binding Path=TransparentColor, Mode=OneWay, Converter={StaticResource SeColorToBrushConverter}}"
+                            Foreground="{Binding Path=TransparentColor, Mode=OneWay, Converter={StaticResource SeColorNegativeToBrushConverter}}"
                             >Fill</Button>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Header="Ink Color" x:Name="_inkColorsExpander" IsExpanded="True">
+                        <ui:ColorSelection x:Name="_colorPanelInk" SelectedColor="{Binding Path=InkColor}" />
+                    </Expander>
+                    <Expander Header="Back Color" x:Name="_backColorsExpander" IsExpanded="True">
+                        <ui:ColorSelection x:Name="_colorPanelBack" SelectedColor="{Binding Path=BackColor}"/>
+                    </Expander>
                     <StackPanel Orientation="Horizontal">
                         <Button Name="_btnMirrorVertically" Margin="0 5 0 5" Padding="5 0 5 0" MinHeight="30" MinWidth="30" HorizontalAlignment="Left" VerticalAlignment="Center">
                             Mirror &lt;- -&gt;

@@ -84,13 +84,23 @@ namespace SpriteEditor.ViewModels
             }
         }
 
-        public SeColor SelectedColor
+        public SeColor InkColor
         {
-            get { return EditorSettings.SelectedColor; }
+            get { return EditorSettings.InkColor; }
             set
             {
-                EditorSettings.SelectedColor = value;
-                FirePropertyChanged(nameof(SelectedColor));
+                EditorSettings.InkColor = value;
+                FirePropertyChanged(nameof(InkColor));
+            }
+        }
+
+        public SeColor BackColor
+        {
+            get { return EditorSettings.BackColor; }
+            set
+            {
+                EditorSettings.BackColor = value;
+                FirePropertyChanged(nameof(BackColor));
             }
         }
 
@@ -137,7 +147,8 @@ namespace SpriteEditor.ViewModels
 
         private void FireRenew()
         {
-            FirePropertyChanged(nameof(SelectedColor));
+            FirePropertyChanged(nameof(InkColor));
+            FirePropertyChanged(nameof(BackColor));
             FirePropertyChanged(nameof(TransparentColor));
             FirePropertyChanged(nameof(IsViewEnabled));
             FirePropertyChanged(nameof(Title));
@@ -151,7 +162,8 @@ namespace SpriteEditor.ViewModels
         {
             NewHelper(settings.VideoMemory);
             EditorSettings.FilePath = settings.FilePath;
-            EditorSettings.SelectedColor = settings.SelectedColor;
+            EditorSettings.InkColor = settings.InkColor;
+            EditorSettings.BackColor = settings.BackColor;
             EditorSettings.TransparentColor = settings.TransparentColor;
             FireRenew();
         }
@@ -170,7 +182,7 @@ namespace SpriteEditor.ViewModels
             EditorSettings.Palette = videoMemory.Palette;
 
             if (EditorSettings.Palette.Any())
-                SelectedColor = EditorSettings.Palette.First();
+                InkColor = EditorSettings.Palette.First();
 
             Colors = videoMemory.Palette;
             EditorSettings.HasChanges = false;
@@ -206,7 +218,7 @@ namespace SpriteEditor.ViewModels
 
         public void SaveToFile(string file)
         {
-            FileSaver.Save(EditorSettings, file, SelectedColor.NativeColor, TransparentColor.NativeColor, ImageType);
+            FileSaver.Save(EditorSettings, file, InkColor.NativeColor, TransparentColor.NativeColor, ImageType);
             FirePropertyChanged(nameof(Title));
         }
 
