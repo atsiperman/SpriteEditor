@@ -61,6 +61,8 @@
     </ApplicationDefinition>
     <Compile Include="Code\Converters\BaseConverter.cs" />
     <Compile Include="Code\Converters\ArgbToColorConverter.cs" />
+    <Compile Include="Code\Converters\SeColorNegativeToBrushConverter.cs" />
+    <Compile Include="Code\Converters\SeColorToBrushConverter.cs" />
     <Compile Include="Code\Editor\FillAllAction.cs" />
     <Compile Include="Code\Editor\SetPixelAction.cs" />
     <Compile Include="Code\Editor\IEditAction.cs" />

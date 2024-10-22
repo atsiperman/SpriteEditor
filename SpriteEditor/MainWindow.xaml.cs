@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace SpriteEditor
 {
@@ -181,12 +182,29 @@ namespace SpriteEditor
 
         private void MenuItem_Exit(object sender, RoutedEventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void ImageType_Checked(object sender, RoutedEventArgs e)
         {
             _viewModel.SetImageType((string)(e.Source as RadioButton).Tag);
+        }
+
+        private void EditorView_MouseWheel(object sender, System.Windows.Input.MouseWheelEventArgs e)
+        {
+            if (!(Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl)))
+                return;
+
+            if (e.Delta < 0)
+            {
+                ZoomOut();
+                e.Handled = true;
+            }
+            else if (e.Delta > 0)
+            {
+                ZoomIn();
+                e.Handled = true;
+            }
         }
     }
 }

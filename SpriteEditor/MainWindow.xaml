@@ -8,6 +8,8 @@
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
     <Window.Resources>
         <se:ArgbToColorConverter x:Key="ArgbConverter"></se:ArgbToColorConverter>
+        <se:SeColorToBrushConverter x:Key="SeColorToBrushConverter"></se:SeColorToBrushConverter>
+        <se:SeColorNegativeToBrushConverter x:Key="SeColorNegativeToBrushConverter"></se:SeColorNegativeToBrushConverter>
     </Window.Resources>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
@@ -32,31 +34,40 @@
             
             <ScrollViewer Grid.Column="0" Grid.Row="0" Background="LightGray" VerticalScrollBarVisibility="Auto"
                           HorizontalScrollBarVisibility="Auto" Margin="0,2,0,-2" IsEnabled="{Binding IsViewEnabled}">
-                <ui:EditorView x:Name="_editorView" Margin="5"></ui:EditorView>
+                <ui:EditorView x:Name="_editorView" Margin="5" MouseWheel="EditorView_MouseWheel"></ui:EditorView>
             </ScrollViewer>
-            <StackPanel Grid.Column="1" Grid.Row="0" MinWidth="200" Orientation="Vertical" Margin="5" IsEnabled="{Binding IsViewEnabled}">
-                <StackPanel Orientation="Horizontal">
-                    <Label Content="{Binding Path=ScaleText}" MinWidth="30" MinHeight="30"                               
+            <ScrollViewer Grid.Column="1" Grid.Row="0">
+                <StackPanel MinWidth="200" Orientation="Vertical" Margin="5" IsEnabled="{Binding IsViewEnabled}">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="{Binding Path=ScaleText}" MinWidth="30" MinHeight="30"                               
                                HorizontalAlignment="Center" VerticalAlignment="Center" TextBlock.TextAlignment="Center"/>
-                    <Slider Name="_scaleSlider" IsSnapToTickEnabled="true" Minimum="1" Maximum="{Binding Path=MaxScale}" 
+                        <Slider Name="_scaleSlider" IsSnapToTickEnabled="true" Minimum="1" Maximum="{Binding Path=MaxScale}" 
                             MinWidth="100" TickFrequency="1" TickPlacement="Both"
                             VerticalAlignment="Center" Value="{Binding Path=Scale,Mode=OneWay}"></Slider>
-                    <Button Content="+" Margin="5 0 0 0" MinWidth="30" Click="ZoomIn_Click" IsEnabled="{Binding Path=ZoomInEnabled}" VerticalContentAlignment="Center"/>
-                    <Button Content="-" Margin="5 0 0 0" MinWidth="30" Click="ZoomOut_Click" IsEnabled="{Binding Path=ZoomOutEnabled}" VerticalContentAlignment="Center"/>
+                        <Button Content="-" Margin="5 0 0 0" MinWidth="30" Click="ZoomOut_Click" IsEnabled="{Binding Path=ZoomOutEnabled}" VerticalContentAlignment="Center"/>
+                        <Button Content="+" Margin="5 0 0 0" MinWidth="30" Click="ZoomIn_Click" IsEnabled="{Binding Path=ZoomInEnabled}" VerticalContentAlignment="Center"/>
+                    </StackPanel>
+                    <Expander Header="Color Selection" x:Name="_colorsExpander" IsExpanded="True">
+                        <ui:ColorSelection x:Name="_colorPanel" SelectedColor="{Binding Path=SelectedColor}" />
+                    </Expander>
+                    <Expander Header="Transparent Color Selection" x:Name="_transparentColorsExpander" IsExpanded="True">
+                        <ui:ColorSelection x:Name="_colorPanelTransparent" SelectedColor="{Binding Path=TransparentColor}"/>
+                    </Expander>
+                    <Button Name="_btnFill" Margin="0 5 0 5" MinHeight="30" MinWidth="50" HorizontalAlignment="Left"
+                            Background="{Binding Path=SelectedColor, Mode=OneWay, Converter={StaticResource SeColorToBrushConverter}}"
+                            Foreground="{Binding Path=SelectedColor, Mode=OneWay, Converter={StaticResource SeColorNegativeToBrushConverter}}"
+                            >Fill</Button>
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="_btnMirrorVertically" Margin="0 5 0 5" Padding="5 0 5 0" MinHeight="30" MinWidth="30" HorizontalAlignment="Left" VerticalAlignment="Center">
+                            Mirror &lt;- -&gt;
+                        </Button>
+                    </StackPanel>
+                    <RadioButton Name="_rbImageTypeSprite" GroupName="ImageType" Checked="ImageType_Checked" Tag="Sprite" Margin="0 5 0 5">Sprite</RadioButton>
+                    <RadioButton Name="_rbImageTypeBackTile" GroupName="ImageType" Checked="ImageType_Checked" Tag="BackgroundTile" Margin="0 5 0 5">Background</RadioButton>
+                    <RadioButton Name="_rbImageTypeStaticObject" GroupName="ImageType" Checked="ImageType_Checked" Tag="StaticObject" Margin="0 5 0 5">Static Object</RadioButton>
+                    <RadioButton Name="_rbImageTypeText" GroupName="ImageType" Checked="ImageType_Checked" Tag="Text" Margin="0 5 0 5">Text</RadioButton>
                 </StackPanel>
-                <ui:ColorSelection x:Name="_colorPanel" SelectedColor="{Binding Path=SelectedColor}" />
-                <ui:ColorSelection x:Name="_colorPanelTransparent" SelectedColor="{Binding Path=TransparentColor}"/>
-                <Button Name="_btnFill" Margin="0 5 0 5" MinHeight="30" MinWidth="50" HorizontalAlignment="Left">Fill</Button>
-                <StackPanel Orientation="Horizontal">
-                    <Button Name="_btnMirrorVertically" Margin="0 5 0 5" Padding="5 0 5 0" MinHeight="30" MinWidth="30" HorizontalAlignment="Left" VerticalAlignment="Center">
-                        Mirror &lt;- -&gt;
-                    </Button>
-                </StackPanel>
-                <RadioButton Name="_rbImageTypeSprite" GroupName="ImageType" Checked="ImageType_Checked" Tag="Sprite" Margin="0 5 0 5">Sprite</RadioButton>
-                <RadioButton Name="_rbImageTypeBackTile" GroupName="ImageType" Checked="ImageType_Checked" Tag="BackgroundTile" Margin="0 5 0 5">Background</RadioButton>
-                <RadioButton Name="_rbImageTypeStaticObject" GroupName="ImageType" Checked="ImageType_Checked" Tag="StaticObject" Margin="0 5 0 5">Static Object</RadioButton>
-                <RadioButton Name="_rbImageTypeText" GroupName="ImageType" Checked="ImageType_Checked" Tag="Text" Margin="0 5 0 5">Text</RadioButton>
-            </StackPanel>
+            </ScrollViewer>
         </Grid>
     </DockPanel>
 </Window>

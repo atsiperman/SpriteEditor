@@ -27,18 +27,24 @@ namespace SpriteEditor.UI
         {
             InitializeComponent();
 
-            this.MouseLeftButtonUp += EditorView_MouseLeftButtonUp;
-            this.MouseMove += EditorView_MouseMove;
+            MouseLeftButtonUp += EditorView_MouseLeftButtonUp;
+            MouseMove += EditorView_MouseMove;
         }
 
         #endregion Constructors
 
         #region Private methods
 
+        SeColor GetEffectiveColor()
+        {
+            bool inverseColor = Keyboard.IsKeyDown(Key.LeftAlt) || Keyboard.IsKeyDown(Key.RightAlt);
+            return inverseColor ? EditorSettings?.TransparentColor : EditorSettings?.SelectedColor;
+        }
+
         void EditorView_MouseMove(object sender, MouseEventArgs e)
         {
             if ((e.LeftButton & MouseButtonState.Pressed) == 0 ||
-                EditorSettings == null || EditorSettings.VideoMemory == null || EditorSettings.SelectedColor == null)
+                EditorSettings == null || EditorSettings.VideoMemory == null || GetEffectiveColor() == null)
             {
                 return;
             }
@@ -49,7 +55,7 @@ namespace SpriteEditor.UI
 
         void EditorView_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
-            if (EditorSettings == null || EditorSettings.VideoMemory == null || EditorSettings.SelectedColor == null)
+            if (EditorSettings == null || EditorSettings.VideoMemory == null || GetEffectiveColor() == null)
                 return;
 
             var point = e.GetPosition(this);
@@ -63,7 +69,7 @@ namespace SpriteEditor.UI
             int x = (int)(point.X - OffsetX) / dotW;
             int y = (int)(point.Y - OffsetY) / dotW;
 
-            EditorSettings.VideoMemory.SetPixel(EditorSettings.SelectedColor.NativeColor, x, y);
+            EditorSettings.VideoMemory.SetPixel(GetEffectiveColor().NativeColor, x, y);
         }
 
         private int OffsetX => EditorSettings.IsGridVisible ? EditorSettings.Scale + 1 : 0;
