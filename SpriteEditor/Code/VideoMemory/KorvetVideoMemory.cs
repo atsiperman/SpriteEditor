@@ -138,6 +138,17 @@ namespace SpriteEditor
             return result;
         }
 
+        public string GetStringMaskOfByte(int x, int y, uint inkColor)
+        {
+            string result = "";
+            for (int w = 0; w < 8; w++)
+            {
+                byte pixel = GetPixel(x * 8 + w, y) == inkColor ? (byte)1 : (byte)0;
+                result += pixel;
+            }
+            return result;
+        }
+
         #endregion Public methods
 
         #region Private methods

@@ -59,6 +59,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Code\Commands\ExportSpriteCommand.cs" />
+    <Compile Include="Code\Commands\IOCommands.cs" />
+    <Compile Include="Code\Commands\SaveAsSpriteCommand.cs" />
+    <Compile Include="Code\Commands\SaveSpriteCommand.cs" />
     <Compile Include="Code\Converters\BaseConverter.cs" />
     <Compile Include="Code\Converters\ArgbToColorConverter.cs" />
     <Compile Include="Code\Converters\SeColorNegativeToBrushConverter.cs" />

@@ -21,7 +21,7 @@ namespace SpriteEditor.Code
             public uint TransparentColorNative { get; set; }
         }
 
-        public static void Save(EditorSettings editor, string path, uint nativeColor, uint maskNativeColor, ImageType imageType)
+        public static void Save(EditorSettings editor, string path, uint inkNativeColor, uint backNativeColor, uint maskNativeColor, ImageType imageType)
         {
             editor.FilePath = path;
             var ext = Path.GetExtension(path);
@@ -33,8 +33,8 @@ namespace SpriteEditor.Code
                     hasChanges = false;
                     break;
 
-                case ".dat":
-                    ExportData.Save(path, editor.VideoMemory, nativeColor, maskNativeColor, imageType);
+                case ".asm":
+                    ExportData.Save(path, editor.VideoMemory, inkNativeColor, backNativeColor, maskNativeColor, imageType);
                     hasChanges = false;
                     break;
 

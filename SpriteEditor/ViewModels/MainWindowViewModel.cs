@@ -3,6 +3,7 @@ using SpriteEditor.Code.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Windows;
 
 namespace SpriteEditor.ViewModels
 {
@@ -124,13 +125,16 @@ namespace SpriteEditor.ViewModels
             }
         }
 
+        public Window Window { get; private set; }
+
         #endregion Public properties
 
         #region Constructors
 
-        public MainWindowViewModel()
+        public MainWindowViewModel(Window window)
         {
             EditorSettings = new EditorSettings();
+            Window = window;
         }
 
         #endregion Constructors
@@ -218,7 +222,7 @@ namespace SpriteEditor.ViewModels
 
         public void SaveToFile(string file)
         {
-            FileSaver.Save(EditorSettings, file, InkColor.NativeColor, TransparentColor.NativeColor, ImageType);
+            FileSaver.Save(EditorSettings, file, InkColor.NativeColor, BackColor.NativeColor, TransparentColor.NativeColor, ImageType);
             FirePropertyChanged(nameof(Title));
         }
 

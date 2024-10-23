@@ -5,12 +5,12 @@ namespace SpriteEditor.Code.Storage
 {
     static class ExportData
     {
-        public static void Save(string path, IVideoMemory vm, uint inkColor, uint maskColor, ImageType imageType)
+        public static void Save(string path, IVideoMemory vm, uint inkColor, uint backColor, uint maskColor, ImageType imageType)
         {
             switch (imageType)
             {
                 case ImageType.Sprite:
-                    SaveSprite(path, vm, inkColor, maskColor);
+                    SaveSprite(path, vm, inkColor, backColor);
                     break;
 
                 case ImageType.BackgroundTile:
@@ -47,32 +47,46 @@ namespace SpriteEditor.Code.Storage
             }
         }
 
-        private static void SaveSprite(string path, IVideoMemory vm, uint inkColor, uint maskColor)
+        private static void SaveSprite(string path, IVideoMemory vm, uint inkColor, uint backColor)
         {
             using (var stream = new StreamWriter(path))
             {
-                var width = vm.ScreenWidth / 8;
-                var height = vm.ScreenHeight / 8;
-                stream.WriteLine("db {0},{1}", height, width);
-                for (var line = 0; line < vm.ScreenHeight / 8; line++)
+                SaveSpritePlane(vm, inkColor, stream);
+                SaveSpritePlane(vm, backColor, stream);
+            }
+        }
+
+        private static void SaveSpritePlane(IVideoMemory vm, uint color, StreamWriter stream)
+        {
+            int[] idxSeq =   { 0, 4, 5, 1, 2, 6, 7, 3 };
+
+            var width = vm.ScreenWidth / 8;
+            var height = vm.ScreenHeight / 8;
+            stream.WriteLine();
+            for (var tileLine = 0; tileLine < height; tileLine++)
+            {
+                var startY = tileLine * 8;
+                for (var k = 0; k < 8; k++)
                 {
-                    stream.Write("db");
+                    stream.Write("\tdb");
                     var firstByte = true;
 
-                    for (int w = 0; w < vm.ScreenWidth / 8; w++)
+                    var h = startY + idxSeq[k];
+                    bool forward = k % 2 == 0;
+                    int w = forward ? 0 : width - 1;
+                    for (;;)
                     {
-                        var startY = line * 8;
-                        for (var h = startY; h < startY + 8; h++)
-                        {
-                            byte mask = vm.GetMaskOfByte(w, h, maskColor);
-                            byte data = vm.GetMaskOfByte(w, h, inkColor);
-                            stream.Write("{0}{1},{2} ", firstByte ? " " : ", ", mask, data);
-                            firstByte = false;
-                        }
-                    }
+                        var data = vm.GetStringMaskOfByte(w, h, color) + "b";
+                        w = forward ? w + 1 : w - 1;
 
+                        stream.Write("{0}{1}", firstByte ? " " : ",", data);
+                        firstByte = false;
+                        
+                        if (forward && w == width || !forward && w < 0)
+                            break;
+                    }
                     stream.WriteLine();
-                }
+                }                
             }
         }
 

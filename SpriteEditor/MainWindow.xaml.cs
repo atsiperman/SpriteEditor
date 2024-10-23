@@ -1,4 +1,5 @@
 ﻿using Microsoft.Win32;
+using SpriteEditor.Code.Commands;
 using SpriteEditor.UI;
 using SpriteEditor.ViewModels;
 using System.IO;
@@ -19,7 +20,7 @@ namespace SpriteEditor
         public MainWindow()
         {
             InitializeComponent();
-            this.DataContext = _viewModel = new MainWindowViewModel();
+            DataContext = _viewModel = new MainWindowViewModel(this);
 
             _editorView.EditorSettings = _viewModel.EditorSettings;
             _colorPanelBack.SelectionChanged += ColorPanelBack_SelectionChanged;
@@ -151,7 +152,7 @@ namespace SpriteEditor
             Init();
         }
 
-        const string FileFilter = "Sprites (*.spr)|*.spr|Sprite data (*.dat)|*.dat";
+        const string FileFilter = "Sprites (*.spr)|*.spr";
 
         private void MenuItem_Open(object sender, RoutedEventArgs e)
         {
@@ -170,29 +171,12 @@ namespace SpriteEditor
 
         private void MenuItem_Save(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(_viewModel.FilePath))
-            {
-                MenuItem_SaveAs(sender, e);
-            }
-            else
-            {
-                _viewModel.SaveToFile(_viewModel.FilePath);
-            }
+            IOCommands.SaveSprite.Execute(_viewModel);
         }
 
         private void MenuItem_SaveAs(object sender, RoutedEventArgs e)
         {
-            var d = new SaveFileDialog();            
-            d.Filter = FileFilter;
-            d.FilterIndex = 0;
-            d.OverwritePrompt = true;
-            d.FileName = Path.GetFileName(_viewModel.FilePath);
-            var ret = d.ShowDialog(this);
-            if (!(ret.HasValue && ret.Value))
-            {
-                return;
-            }
-            _viewModel.SaveToFile(d.FileName);
+            IOCommands.SaveAsSprite.Execute(_viewModel);
         }
 
         private void MenuItem_Exit(object sender, RoutedEventArgs e)

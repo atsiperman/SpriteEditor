@@ -3,6 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:ui="clr-namespace:SpriteEditor.UI"
         xmlns:se="clr-namespace:SpriteEditor"
+        xmlns:cmd="clr-namespace:SpriteEditor.Code.Commands"
         Title="{Binding Path=Title}" Height="600" Width="800" 
         MinHeight="200" MinWidth="300"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize">
@@ -11,13 +12,17 @@
         <se:SeColorToBrushConverter x:Key="SeColorToBrushConverter"></se:SeColorToBrushConverter>
         <se:SeColorNegativeToBrushConverter x:Key="SeColorNegativeToBrushConverter"></se:SeColorNegativeToBrushConverter>
     </Window.Resources>
+    <Window.InputBindings>
+        <KeyBinding Gesture="CTRL+E" Command="cmd:IOCommands.ExportSprite" CommandParameter="{Binding}"/>
+        <KeyBinding Gesture="CTRL+S" Command="cmd:IOCommands.SaveSprite" CommandParameter="{Binding}"/>
+    </Window.InputBindings>
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File" IsEnabled="True">
-                <MenuItem Header="_New" IsEnabled="True" Click="MenuIte_New"></MenuItem>
+                <MenuItem Header="_New" IsEnabled="True" Click="MenuIte_New"/>
                 <Separator></Separator>
-                <MenuItem Header="_Open" IsEnabled="True" Click="MenuItem_Open"></MenuItem>
-                <MenuItem Header="_Save" IsEnabled="True" Click="MenuItem_Save"></MenuItem>
+                <MenuItem Header="_Open" IsEnabled="True" Click="MenuItem_Open"/>
+                <MenuItem Header="_Save" IsEnabled="True" Click="MenuItem_Save"/>
                 <MenuItem Header="Save _As" IsEnabled="True" Click="MenuItem_SaveAs"></MenuItem>
                 <Separator></Separator>
                 <MenuItem Header="E_xit" IsEnabled="True" Click="MenuItem_Exit"></MenuItem>
